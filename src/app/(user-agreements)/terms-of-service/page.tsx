@@ -10,7 +10,7 @@ const TermsOfServicePage = () => {
           (ToS) govern your use of the website
           <span className="text-gray-900 dark:text-gray-500">
             {" "}
-            (https://yourwebsite.com)
+            (https://instagram-reels-downloader-tau.vercel.app/)
           </span>{" "}
           and its associated services (the "Website" or "Service"). By using the
           Website or Service, you agree to be bound by the terms and conditions
