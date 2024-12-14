@@ -2,8 +2,6 @@
 
 A simple website/API for downloading Instagram videos, built with Next.js. It works seamlessly and allows you to download videos with no hassle.
 
-> **Note**  
-> The website preview has been shut down due to exceeding the free usage limit on Vercel, with more than **2,000,000** visits in the past week. Since this is a non-profit project, I had to close it.
 
 ## Description
 
@@ -11,7 +9,7 @@ This website allows you to easily download Instagram videos in MP4 format. Simpl
 
 _Note: Instagram Stories aren't supported._
 
-You can preview and try the website live on Vercel here: [instagram-videos.vercel.app](https://instagram-reels-downloader-tau.vercel.app/)
+You can preview and try the website live on Vercel here: [instagram-reels-downloader-tau.vercel.app](https://instagram-reels-downloader-tau.vercel.app/)
 
 ## Getting Started
 
