@@ -45,14 +45,7 @@ export const getPostIdFromUrl = async (postUrl: string): Promise<string> => {
 };
 
 
-// export const getPostIdFromUrl = (postUrl: string) => {
-//   const postRegex =
-//     /^https:\/\/(?:www\.)?instagram\.com\/p\/([a-zA-Z0-9_-]+)\/?/;
-//   const reelRegex =
-//     /^https:\/\/(?:www\.)?instagram\.com\/reels?\/([a-zA-Z0-9_-]+)\/?/;
-//   console.log("postUrl.match(reelRegex)?.at(-1):",postUrl.match(reelRegex)?.at(-1));
-//   return postUrl.match(postRegex)?.at(-1) || postUrl.match(reelRegex)?.at(-1);
-// };
+
 
 // Function to fetch and extract the reel ID from a share URL
 export const fetchReelIdFromShareURL = async (shareUrl: string): Promise<string> => {
