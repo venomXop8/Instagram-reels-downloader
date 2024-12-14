@@ -132,13 +132,7 @@ const TermsOfServicePage = () => {
         </p>
       </section>
 
-      <section className="mb-2 text-sm">
-        <p className="text-red-500">
-          <span className="font-semibold">Disclaimer :</span> This Terms of Service
-          was auto-generated using AI. It is provided for informational purposes
-          and may need to be customized according to your specific website's needs.
-        </p>
-      </section>
+
     </div>
   );
 };
