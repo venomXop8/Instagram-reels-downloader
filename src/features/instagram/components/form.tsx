@@ -19,7 +19,6 @@ import {
 
 import { Input } from "@/components/ui/input";
 
-import { downloadFile } from "@/lib/utils";
 import { getHttpErrorMessage } from "@/lib/http";
 
 import { useVideoInfo } from "@/services/api/queries";
@@ -47,14 +46,17 @@ export function InstagramVideoForm() {
     try {
       console.log("getting video info", postUrl);
       const videoInfo = await getVideoInfo({ postUrl });
-
+  
       const { filename, videoUrl } = videoInfo;
-      downloadFile(videoUrl, { filename });
+  
+      console.log("videoUrl:", videoUrl);
+  
+      await downloadFile(videoUrl, filename);
     } catch (error: any) {
       console.log(error);
     }
   }
-
+  
   return (
     <Form {...form}>
       <form
@@ -103,4 +105,30 @@ export function InstagramVideoForm() {
       </form>
     </Form>
   );
+}
+
+// Utility function for download
+export async function downloadFile(videoUrl: string, filename: string) {
+  try {
+    const response = await fetch(videoUrl);
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch the video for download.");
+    }
+
+    const blob = await response.blob();
+    const blobUrl = window.URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = blobUrl;
+    a.download = filename; // Set the filename for the download
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+
+    // Cleanup blob URL
+    window.URL.revokeObjectURL(blobUrl);
+  } catch (error) {
+    console.error("Error during file download:", error);
+  }
 }
