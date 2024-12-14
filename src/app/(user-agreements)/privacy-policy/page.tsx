@@ -10,7 +10,7 @@ const PrivacyPolicyPage = () => {
           (Policy) informs users that the website
           <span className="text-gray-900 dark:text-gray-500">
             {" "}
-            (https://yourwebsite.com)
+            (https://instagram-reels-downloader-tau.vercel.app/)
           </span>{" "}
           does not collect, store, or process any personal information. By using
           the Website or Service, you acknowledge that no personal information
