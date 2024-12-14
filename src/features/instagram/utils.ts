@@ -14,8 +14,12 @@ export const getPostIdFromUrl = (postUrl: string) => {
     /^https:\/\/(?:www\.)?instagram\.com\/p\/([a-zA-Z0-9_-]+)\/?/;
   const reelRegex =
     /^https:\/\/(?:www\.)?instagram\.com\/reels?\/([a-zA-Z0-9_-]+)\/?/;
+  const shareRegex =
+    /^https:\/\/(?:www\.)?instagram\.com\/share\/([a-zA-Z0-9_-]+)\/?/; // New regex for share links
 
-  return postUrl.match(postRegex)?.at(-1) || postUrl.match(reelRegex)?.at(-1);
+  return postUrl.match(postRegex)?.at(-1) || 
+         postUrl.match(reelRegex)?.at(-1) || 
+         postUrl.match(shareRegex)?.at(-1);
 };
 
 export const encodeGraphqlRequestData = (shortcode: string) => {
