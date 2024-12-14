@@ -10,6 +10,8 @@ export async function middleware(request: NextRequest) {
   const country = request.geo?.country ?? "Country";
 
   const clientIp = getIpFromRequest(request);
+  console.log("country:",country);
+  console.log("clientIp:",clientIp);
 
   // Log request info
   console.log(`${request.method} ${clientIp} (${country}) -> ${requestPath}`);
