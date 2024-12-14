@@ -19,7 +19,7 @@
 # Google Search console
 **/google*.html
 ads.txt
-
+reference.txt
 # misc
 .DS_Store
 *.pem
