@@ -1,67 +1,53 @@
 # Instagram Videos Downloader
 
-Simple Website/API for downloading instagram videos made with Next.js that actually works with no problem.
+A simple website/API for downloading Instagram videos, built with Next.js. It works seamlessly and allows you to download videos with no hassle.
 
-> [!NOTE]  
-> The website preview has been shut down due to exceeding the free usage limit on Vercel with more than **2,000,000** visits for the past week. Since I don't make any money from this website, I had to close it.
-
-![image](https://github.com/user-attachments/assets/c06458d7-ceb9-4793-8952-2a68027b8601)
-
+> **Note**  
+> The website preview has been shut down due to exceeding the free usage limit on Vercel, with more than **2,000,000** visits in the past week. Since this is a non-profit project, I had to close it.
 
 ## Description
 
-A website that lets you download Instagram videos easily and quickly. You can paste the URL of any public Instagram post and get the video file in MP4 format. there is also an API that you can use to integrate this functionality into your own applications. The API is simple, and it returns JSON responses with the video URL and other metadata.
+This website allows you to easily download Instagram videos in MP4 format. Simply paste the URL of any public Instagram post, and you'll receive the video file. There's also an API that you can integrate into your own applications to download Instagram videos programmatically. The API returns JSON responses with the video URL and other metadata.
 
-_Note: Instagram stories aren't supported._
+_Note: Instagram Stories aren't supported._
 
-You can preview and try the website live in Vercel here : [instagram-videos.vercel.app](https://instagram-videos.vercel.app)
-
-## Website Preview
-
-Easy and User friendly UI (Interactions feedback and error messages).
-
-![Desktop preview](https://github.com/riad-azz/readme-storage/blob/main/instagram-videos-downloader/desktop-preview.gif?raw=true)
-
-Responsive on mobile and small devices.
-
-![Mobile preview](https://github.com/riad-azz/readme-storage/blob/main/instagram-videos-downloader/mobile-preview.gif?raw=true)
+You can preview and try the website live on Vercel here: [instagram-videos.vercel.app](https://instagram-videos.vercel.app)
 
 ## Getting Started
 
-**1.** Cloning the repository:
+### 1. Clone the repository
 
 ```bash
-git clone https://github.com/riad-azz/instagram-video-downloader.git
+git clone https://github.com/riad-azz/Instagram-reels-downloader.git
 ```
 
-**2.** Installing dependencies:
+### 2. Install dependencies
 
 ```bash
-cd instagram-video-downloader
-```
-
-```bash
+cd Instagram-reels-downloader
 npm install
 ```
 
-**3.** Starting the server:
+### 3. Start the server
+
+For development:
 
 ```bash
-# Development
 npm run dev
+```
 
-# Build
+For production (build and start):
+
+```bash
 npm run build
-
-# Start
 npm run start
 ```
 
-### Endpoint: /api/video?postUrl={POST_URL}
+### Endpoint: `/api/video?postUrl={POST_URL}`
 
-Parameters :
+Parameters:
 
-- `postUrl` : Instagram Post or Reel link **(required)**.
+- `postUrl` : Instagram post or reel link **(required)**.
 
 #### GET Request example
 
@@ -73,43 +59,38 @@ curl -i "http://localhost:3000/api/video?postUrl=https://www.instagram.com/reel/
 
 ```json
 {
-  "status":"success",
-  "data":
-    {
-      "filename":"ig-downloader-1712666263.mp4",
-      "width":"640",
-      "height":"640",
-      "videoUrl":"https://scontent.cdninstagram.com/o1/v/t16/f1/m84/E84E5DFC48EA8...etc"
-    }
+  "status": "success",
+  "data": {
+    "filename": "ig-downloader-1712666263.mp4",
+    "width": "640",
+    "height": "640",
+    "videoUrl": "https://scontent.cdninstagram.com/o1/v/t16/f1/m84/E84E5DFC48EA8...etc"
+  }
 }
 ```
 
 ## Rate Limiter - Upstash
 
-In order to reduce the load on the API and ensure optimal performance, I have implemented rate limiting using Upstash. This integration allows me to restrict the number of requests made to the API within a specified time frame, preventing excessive traffic and potential service disruptions.
+To optimize API performance and reduce the load, rate limiting has been implemented using Upstash. This limits the number of requests to the API within a specific time frame to avoid service disruptions.
 
-To enable this feature follow these steps:
+To enable rate limiting, follow these steps:
 
 1. Create an account on [upstash.com](https://upstash.com/).
 2. Create a new Redis database.
 3. Click on the newly created database.
-4. Scroll down to REST API, click on `.env` and copy the two variables provided.
-5. Create a new `.env.local` file in the root directory.
-6. Paste what you copied inside and add `USE_UPSTASH` and set it to `true`.
+4. Under "REST API", click on `.env` and copy the provided variables.
+5. Create a `.env.local` file in the root directory.
+6. Paste the variables into the `.env.local` file and add the following line:
+   ```env
+   USE_UPSTASH="true"
+   UPSTASH_REDIS_REST_URL="YOUR-UPSTASH-URL"
+   UPSTASH_REDIS_REST_TOKEN="YOUR-UPSTASH-TOKEN"
+   ```
 
-Here is what your `.env.local` should look like:
+All rate-limit configurations can be found in `src/features/ratelimit/constants.ts`.
 
-```env
-# ...other variables
-USE_UPSTASH="true"
-UPSTASH_REDIS_REST_URL="YOUR-UPSTASH-URL"
-UPSTASH_REDIS_REST_TOKEN="YOUR-UPSTASH-TOKEN"
-```
-
-All ratelimit configs can be found in `src/features/ratelimit/constants.ts`.
-
-If you would like to change the identifier (default is IP) you can change it in `src/middleware.ts`.
+If you want to change the identifier (default is IP), you can modify it in `src/middleware.ts`.
 
 ## License
 
-This project is licensed under the [MIT] License - see the LICENSE.md file for details
+This project is licensed under the **Apache License 2.0**. See the LICENSE.md file for details.
