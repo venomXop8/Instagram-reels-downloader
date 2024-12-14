@@ -1,27 +1,123 @@
 import { CheerioAPI } from "cheerio";
 import querystring from "querystring";
-
+import fetch from 'node-fetch';
 import { getTimedFilename } from "@/lib/utils";
-
+import { createBrotliDecompress } from 'zlib';
 import { VideoInfo } from "@/types";
 import { MediaData } from "./types";
 
+// Function to generate a video filename
 export const getIGVideoFileName = () =>
   getTimedFilename("ig-downloader", "mp4");
 
-export const getPostIdFromUrl = (postUrl: string) => {
-  const postRegex =
-    /^https:\/\/(?:www\.)?instagram\.com\/p\/([a-zA-Z0-9_-]+)\/?/;
-  const reelRegex =
-    /^https:\/\/(?:www\.)?instagram\.com\/reels?\/([a-zA-Z0-9_-]+)\/?/;
-  const shareRegex =
-    /^https:\/\/(?:www\.)?instagram\.com\/share\/([a-zA-Z0-9_-]+)\/?/; // New regex for share links
+// Function to process Instagram share URL and resolve it to the reel ID
 
-  return postUrl.match(postRegex)?.at(-1) || 
-         postUrl.match(reelRegex)?.at(-1) || 
-         postUrl.match(shareRegex)?.at(-1);
+export const getPostIdFromUrl = async (postUrl: string): Promise<string> => {
+  const shareRegex = /^https:\/\/(?:www\.)?instagram\.com\/share\/([a-zA-Z0-9_-]+)\/?/;
+  const postRegex = /^https:\/\/(?:www\.)?instagram\.com\/p\/([a-zA-Z0-9_-]+)\/?/;
+  const reelRegex = /^https:\/\/(?:www\.)?instagram\.com\/reels?\/([a-zA-Z0-9_-]+)\/?/;
+
+  if (shareRegex.test(postUrl)) {
+    console.log('Detected Share URL');
+    try {
+      const reelId = await fetchReelIdFromShareURL(postUrl);
+      return reelId;
+    } catch (error) {
+      console.error('Error resolving share URL');
+      throw error;
+    }
+  }
+
+  const postMatch = postUrl.match(postRegex);
+  if (postMatch?.[1]) {
+    console.log('Matched Post ID');
+    return postMatch[1];
+  }
+
+  const reelMatch = postUrl.match(reelRegex);
+  if (reelMatch?.[1]) {
+    console.log('Matched Reel ID');
+    return reelMatch[1];
+  }
+
+  console.error('No match found');
+  throw new Error('Unable to extract ID');
 };
 
+
+// export const getPostIdFromUrl = (postUrl: string) => {
+//   const postRegex =
+//     /^https:\/\/(?:www\.)?instagram\.com\/p\/([a-zA-Z0-9_-]+)\/?/;
+//   const reelRegex =
+//     /^https:\/\/(?:www\.)?instagram\.com\/reels?\/([a-zA-Z0-9_-]+)\/?/;
+//   console.log("postUrl.match(reelRegex)?.at(-1):",postUrl.match(reelRegex)?.at(-1));
+//   return postUrl.match(postRegex)?.at(-1) || postUrl.match(reelRegex)?.at(-1);
+// };
+
+// Function to fetch and extract the reel ID from a share URL
+export const fetchReelIdFromShareURL = async (shareUrl: string): Promise<string> => {
+  try {
+    const response = await fetch(shareUrl, { method: 'GET', redirect: 'follow' });
+
+    if (!response.ok) {
+      console.error("Failed to fetch share URL");
+      throw new Error("Failed to fetch share URL");
+    }
+
+    console.log("Final URL after redirects:", response.url);
+
+    const match = response.url.match(/reel\/([a-zA-Z0-9_-]+)/);
+    // console.log("match:", match);
+
+    if (!match || !match[1]) {
+      throw new Error("Reel ID not found in URL");
+    }
+
+    return match[1];
+  } catch (error) {
+    console.error("Error fetching or parsing share URL:", error);
+    throw error; // Re-throw error to allow the caller to handle it.
+  }
+};
+
+
+// Function to fetch and decompress Instagram's Brotli-compressed response
+export const fetchAndDecompress = async (url: string) => {
+  try {
+    const response = await fetch(url, { method: 'GET', redirect: 'follow' });
+
+    if (!response.body) {
+      throw new Error("No response body.");
+    }
+
+    const decompressedChunks: Uint8Array[] = [];
+    const brotliDecompressor = createBrotliDecompress();
+
+    return new Promise<Uint8Array>((resolve, reject) => {
+      response.body?.on('data', (chunk: Buffer) => {
+        try {
+          // Convert Buffer directly to Uint8Array safely
+          const uint8ArrayChunk = new Uint8Array(chunk.buffer, chunk.byteOffset, chunk.byteLength);
+          decompressedChunks.push(uint8ArrayChunk);
+        } catch (error) {
+          reject(error);
+        }
+      });
+
+      response.body?.on('end', () => {
+        const combinedBuffer = Buffer.concat(decompressedChunks);
+        resolve(new Uint8Array(combinedBuffer));
+      });
+
+      response.body?.on('error', reject);
+    });
+  } catch (error) {
+    console.error("Failed to decompress response body", error);
+    throw error;
+  }
+};
+
+// Function to prepare GraphQL request payload
 export const encodeGraphqlRequestData = (shortcode: string) => {
   const requestData = {
     av: "0",
@@ -67,6 +163,7 @@ export const encodeGraphqlRequestData = (shortcode: string) => {
   return encoded;
 };
 
+// Function to format GraphQL data into a usable video file JSON
 export const formatGraphqlJson = (data: MediaData) => {
   const filename = getIGVideoFileName();
   const width = data.dimensions.width.toString();
@@ -83,6 +180,7 @@ export const formatGraphqlJson = (data: MediaData) => {
   return videoJson;
 };
 
+// Function to format video data from Instagram page meta tags
 export const formatPageJson = (postHtml: CheerioAPI) => {
   const videoElement = postHtml("meta[property='og:video']");
 
@@ -110,6 +208,7 @@ export const formatPageJson = (postHtml: CheerioAPI) => {
   return videoJson;
 };
 
+// Function to validate Instagram URLs
 export const isValidInstagramURL = (postUrl: string) => {
   if (!postUrl) {
     return "Instagram URL was not provided";

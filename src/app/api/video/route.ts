@@ -31,7 +31,7 @@ export async function GET(request: Request) {
     return NextResponse.json(badRequestResponse, { status: 400 });
   }
 
-  const postId = getPostIdFromUrl(postUrl);
+  const postId =await  getPostIdFromUrl(postUrl);
   if (!postId) {
     const noPostIdResponse = makeErrorResponse("Invalid Post URL");
     return NextResponse.json(noPostIdResponse, { status: 400 });
