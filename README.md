@@ -66,7 +66,7 @@ Parameters :
 #### GET Request example
 
 ```bash
-curl -i "http://localhost:3000/api/video?postUrl=https://www.instagram.com/p/CGh4a0iASGS"
+curl -i "http://localhost:3000/api/video?postUrl=https://www.instagram.com/reel/DCUBzY0yiKK/"
 ```
 
 #### API Response

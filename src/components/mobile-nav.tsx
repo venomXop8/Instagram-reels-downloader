@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Menu } from "lucide-react";
 
 import { cn } from "@/lib/utils";
-import { externalLinks, siteLinks } from "@/lib/constants";
+import { siteLinks } from "@/lib/constants";
 import { Separator } from "./ui/separator";
 
 export function MobileNav({ className }: { className?: string }) {
@@ -53,25 +53,7 @@ export function MobileNav({ className }: { className?: string }) {
           ))}
         </ul>
         <Separator className="my-4" />
-        <h2 className="mb-4 text-center text-lg font-semibold">
-          External Links
-        </h2>
-        <ul className="space-y-3">
-          {externalLinks.map((link) => (
-            <li key={link.href}>
-              <Button variant="outline" asChild>
-                <Link
-                  href={link.href}
-                  className="w-full"
-                  target="_blank"
-                  onClick={handleCloseSheet}
-                >
-                  {link.name}
-                </Link>
-              </Button>
-            </li>
-          ))}
-        </ul>
+
       </SheetContent>
     </Sheet>
   );
