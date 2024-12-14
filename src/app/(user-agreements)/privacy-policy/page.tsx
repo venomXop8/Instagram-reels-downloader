@@ -66,16 +66,6 @@ const PrivacyPolicyPage = () => {
             {" "}
             Ads Settings{" "}
           </a>
-          or by visiting
-          <a
-            target="_blank"
-            href="https://www.aboutads.info/"
-            className="text-blue-600 hover:underline"
-          >
-            {" "}
-            www.aboutads.info
-          </a>
-          .
         </p>
       </section>
 
