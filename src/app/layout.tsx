@@ -29,7 +29,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <AdSense pId="pub-9504654793147997"/>
+        <AdSense pId="9504654793147997"/>
       </head>
       <body
         className={cn(
