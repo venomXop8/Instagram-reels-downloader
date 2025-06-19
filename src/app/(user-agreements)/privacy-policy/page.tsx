@@ -10,7 +10,7 @@ const PrivacyPolicyPage = () => {
           (Policy) informs users that the website
           <span className="text-gray-900 dark:text-gray-500">
             {" "}
-            (https://instagram-reels-downloader-tau.vercel.app/)
+            (https://irotechlab-reel-downloader.vercel.app/)
           </span>{" "}
           does not collect, store, or process any personal information. By using
           the Website or Service, you acknowledge that no personal information
@@ -87,7 +87,14 @@ const PrivacyPolicyPage = () => {
         <p className="mb-2">
           <span className="font-semibold">4.1.</span> If you have any questions
           or concerns about this Policy, please contact the Website owner at{" "}
-          <span className="italic">your-email@example.com</span>.
+          <span className="italic"><a
+            target="_blank"
+            href="https://t.me/ironmanhindigaming"
+            className="text-blue-600 hover:underline"
+          >
+            {" "}
+            telegram{" "}
+          </a></span>.
         </p>
       </section>
 
