@@ -10,7 +10,7 @@ const TermsOfServicePage = () => {
           (ToS) govern your use of the website
           <span className="text-gray-900 dark:text-gray-500">
             {" "}
-            (https://instagram-reels-downloader-tau.vercel.app/)
+            (https://irotechlab-reel-downloader.vercel.app/)
           </span>{" "}
           and its associated services (the "Website" or "Service"). By using the
           Website or Service, you agree to be bound by the terms and conditions
@@ -119,7 +119,14 @@ const TermsOfServicePage = () => {
         <p className="mb-2">
           <span className="font-semibold">7.1.</span> If you have any questions
           or concerns about these ToS, please contact the Website owner at{" "}
-          <span className="italic">your-email@example.com</span>.
+          <span className="italic"><a
+            target="_blank"
+            href="https://t.me/ironmanhindigaming"
+            className="text-blue-600 hover:underline"
+          >
+            {" "}
+            telegram{" "}
+          </a></span>.
         </p>
       </section>
 
